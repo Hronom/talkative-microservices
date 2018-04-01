@@ -46,6 +46,7 @@ public class EntriesRetriever implements ApplicationRunner {
         }
 
         // Results
+        // Spring Boot 1.5.10
         // Done, threads: 1, page size: 1000, total pages 1000, time: 331595 ms.
         // Done, threads: 2, page size: 1000, total pages 1000, time: 192680 ms.
         // Done, threads: 3, page size: 1000, total pages 1000, time: 138867 ms.
@@ -54,6 +55,16 @@ public class EntriesRetriever implements ApplicationRunner {
         // Done, threads: 6, page size: 1000, total pages 1000, time: 113297 ms.
         // Done, threads: 7, page size: 1000, total pages 1000, time: 104802 ms.
         // Done, threads: 8, page size: 1000, total pages 1000, time: 108093 ms.
+
+        // Spring Boot 2.0.0
+        // Done, threads: 1, page size: 1000, total pages 1000, time: 337123 ms.
+        // Done, threads: 2, page size: 1000, total pages 1000, time: 175841 ms.
+        // Done, threads: 3, page size: 1000, total pages 1000, time: 135965 ms.
+        // Done, threads: 4, page size: 1000, total pages 1000, time: 136184 ms.
+        // Done, threads: 5, page size: 1000, total pages 1000, time: 128826 ms.
+        // Done, threads: 6, page size: 1000, total pages 1000, time: 132369 ms.
+        // Done, threads: 7, page size: 1000, total pages 1000, time: 126847 ms.
+        // Done, threads: 8, page size: 1000, total pages 1000, time: 126232 ms.
     }
 
     private void getSingleThread(long pageSize, long totalPages) {
