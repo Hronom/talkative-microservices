@@ -12,6 +12,11 @@ services:
     links:
       - mongodb:mongo
 
+  eureka-service:
+    image: hronom/eureka-service:1.0.0
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
 networks:
   default:
     external:
