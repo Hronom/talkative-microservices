@@ -60,7 +60,7 @@
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-                <version>0.9.6</version>
+                <version>0.9.7</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -79,7 +79,7 @@
                     <container>
                         <mainClass>com.github.hronom.eurekaservice.EurekaServiceApplication</mainClass>
                         <ports>
-                            <port>8080</port>
+                            <port>8081</port>
                         </ports>
                     </container>
                 </configuration>
