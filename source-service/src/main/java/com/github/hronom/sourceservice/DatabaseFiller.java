@@ -8,6 +8,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.UUID;
 
 @Service
@@ -26,15 +27,26 @@ public class DatabaseFiller implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         logger.info("Cleaning database...");
         entryRepository.deleteAll();
+        long begin = System.currentTimeMillis();
         logger.info("Inserting test entries in database...");
+        LinkedList<Entry> entries = new LinkedList<>();
         for (int i = 0; i < 1_000_000; i++) {
             Entry entry = new Entry();
             entry.id = "id " + i;
             entry.key = String.valueOf(i % 3);
             entry.text = generateString(1500);
-            entryRepository.save(entry);
+            entries.add(entry);
+            if (entries.size() > 100_000) {
+                entryRepository.insert(entries);
+                entries.clear();
+            }
         }
-        logger.info("Done inserting of test entries in database.");
+        if (!entries.isEmpty()) {
+            entryRepository.insert(entries);
+            entries.clear();
+        }
+        long end = System.currentTimeMillis();
+        logger.info("Done inserting of test entries in database. Took " + (end - begin) + " ms.");
     }
 
     private String generateString(int length) {

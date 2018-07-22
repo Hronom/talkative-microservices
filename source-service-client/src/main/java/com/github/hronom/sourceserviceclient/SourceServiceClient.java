@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = "source-service", configuration = SourceServiceClientConfig.class)
 public interface SourceServiceClient {
     @RequestMapping(method = RequestMethod.GET, value = "/entries", consumes = MediaTypes.HAL_JSON_VALUE)
-    PagedResources<Entry> getStores(@RequestParam("page") long page, @RequestParam("size") long size);
+    PagedResources<Entry> getStores(@RequestParam("page") long page, @RequestParam("size") long size, @RequestParam("sort") String sort);
 }
