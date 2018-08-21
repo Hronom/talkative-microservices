@@ -37,12 +37,12 @@ public class DatabaseFiller implements ApplicationRunner {
             entry.text = generateString(1500);
             entries.add(entry);
             if (entries.size() > 100_000) {
-                entryRepository.insert(entries);
+                entryRepository.saveAll(entries);
                 entries.clear();
             }
         }
         if (!entries.isEmpty()) {
-            entryRepository.insert(entries);
+            entryRepository.saveAll(entries);
             entries.clear();
         }
         long end = System.currentTimeMillis();

@@ -1,7 +1,11 @@
 package com.github.hronom.sourceservice;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface EntryRepository extends MongoRepository<Entry, String> {
+import java.util.stream.Stream;
+
+public interface EntryRepository extends PagingAndSortingRepository<Entry, String> {
+    @Query("{}")
+    Stream<Entry> findAllByCustomQueryAndStream();
 }
