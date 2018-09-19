@@ -49,13 +49,13 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<executable>true</executable>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
 
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
@@ -74,11 +74,12 @@
                         <image>openjdk:10-jre</image>
                     </from>
                     <to>
+                        <image>registry.hub.docker.com/hronom/eureka-service:${git.commit.id}</image>
                         <image>registry.hub.docker.com/hronom/eureka-service:${project.version}</image>
                         <image>registry.hub.docker.com/hronom/eureka-service:latest</image>
                     </to>
                     <container>
-                        <mainClass>com.github.hronom.eurekaservice.EurekaServiceApplication</mainClass>
+                        <mainClass>${start-class}</mainClass>
                         <ports>
                             <port>8081</port>
                         </ports>

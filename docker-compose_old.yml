@@ -1,0 +1,27 @@
+version: '2.2'
+services:
+  mongo:
+    image: mongo:4
+#    restart: always
+    ports:
+      - "27017:27017"
+
+  mongo-express:
+    image: mongo-express
+#    restart: always
+    ports:
+      - "8079:8081"
+    links:
+      - mongo:mongo
+
+  eureka-service:
+    image: hronom/eureka-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    ports:
+      - "8081:8081"
+
+networks:
+  default:
+    external:
+      name: hronom

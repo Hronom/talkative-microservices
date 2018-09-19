@@ -1,10 +1,55 @@
 version: '2.2'
 services:
-  mongo:
-    image: mongo:4
-#    restart: always
+  ## Config Servers
+  config01:
+    image: mongo
+    command: mongod --port 27020 --bind_ip_all --configsvr --replSet configserver
+    volumes:
+      - ./scripts:/scripts
+      - /talkative-microservices/config01:/data/db
+  config02:
+    image: mongo
+    command: mongod --port 27020 --bind_ip_all --configsvr --replSet configserver
+    volumes:
+      - ./scripts:/scripts
+      - /talkative-microservices/config02:/data/db
+  config03:
+    image: mongo
+    command: mongod --port 27020 --bind_ip_all --configsvr --replSet configserver
+    volumes:
+      - ./scripts:/scripts
+      - /talkative-microservices/config03:/data/db
+
+  ## Shards
+  shard01a:
+    image: mongo
+    command: mongod --port 27018 --bind_ip_all --shardsvr --replSet shard01
+    volumes:
+      - ./scripts:/scripts
+      - /talkative-microservices/shard01a:/data/db
+  shard02a:
+    image: mongo
+    command: mongod --port 27019 --bind_ip_all --shardsvr --replSet shard02
+    volumes:
+      - ./scripts:/scripts
+      - /talkative-microservices/shard02a:/data/db
+
+  ## Router
+  router:
+    image: mongo
+    command: mongos --port 27017 --bind_ip_all --configdb configserver/config01:27020,config02:27020,config03:27020
     ports:
       - "27017:27017"
+    volumes:
+      - ./scripts:/scripts
+      - /talkative-microservices/router:/data/db
+      - /talkative-microservices/router_dump:/dump
+    depends_on:
+      - config01
+      - config02
+      - config03
+      - shard01a
+      - shard02a
 
   mongo-express:
     image: mongo-express
@@ -12,14 +57,22 @@ services:
     ports:
       - "8079:8081"
     links:
-      - mongo:mongo
+      - router:mongo
 
-#  eureka-service:
-#    image: hronom/eureka-service:1.0.0
+  mongoclient:
+    image: mongoclient/mongoclient
+    #    restart: always
 #    environment:
-#      - SPRING_PROFILES_ACTIVE=prod
-#    ports:
-#      - "8081:8081"
+#      - MONGOCLIENT_DEFAULT_CONNECTION_URL=mongodb://router:27017
+    ports:
+      - "3000:3000"
+
+  eureka-service:
+    image: hronom/eureka-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    ports:
+      - "8081:8081"
 
 networks:
   default:
