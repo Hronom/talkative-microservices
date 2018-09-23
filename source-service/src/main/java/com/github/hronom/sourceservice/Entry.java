@@ -12,7 +12,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
 @Document
-@CompoundIndexes({@CompoundIndex(name = "key", def = "{'key': 'hashed'}")})
+@CompoundIndexes({
+    @CompoundIndex(name = "key", def = "{'key': 'hashed'}"),
+    @CompoundIndex(name = "shard_key", def = "{'_id': 'hashed'}")
+})
 public class Entry {
     @Id
     public String id;

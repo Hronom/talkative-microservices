@@ -3,19 +3,19 @@ services:
   ## Config Servers
   config01:
     image: mongo
-    command: mongod --port 27020 --bind_ip_all --configsvr --replSet configserver
+    command: mongod --port 28017 --bind_ip_all --configsvr --replSet configserver
     volumes:
       - ./scripts:/scripts
       - /talkative-microservices/config01:/data/db
   config02:
     image: mongo
-    command: mongod --port 27020 --bind_ip_all --configsvr --replSet configserver
+    command: mongod --port 28018 --bind_ip_all --configsvr --replSet configserver
     volumes:
       - ./scripts:/scripts
       - /talkative-microservices/config02:/data/db
   config03:
     image: mongo
-    command: mongod --port 27020 --bind_ip_all --configsvr --replSet configserver
+    command: mongod --port 28019 --bind_ip_all --configsvr --replSet configserver
     volumes:
       - ./scripts:/scripts
       - /talkative-microservices/config03:/data/db
@@ -23,21 +23,27 @@ services:
   ## Shards
   shard01a:
     image: mongo
-    command: mongod --port 27018 --bind_ip_all --shardsvr --replSet shard01
+    command: mongod --port 29017 --bind_ip_all --shardsvr --replSet shard01
     volumes:
       - ./scripts:/scripts
       - /talkative-microservices/shard01a:/data/db
   shard02a:
     image: mongo
-    command: mongod --port 27019 --bind_ip_all --shardsvr --replSet shard02
+    command: mongod --port 29018 --bind_ip_all --shardsvr --replSet shard02
     volumes:
       - ./scripts:/scripts
       - /talkative-microservices/shard02a:/data/db
+  shard03a:
+    image: mongo
+    command: mongod --port 29019 --bind_ip_all --shardsvr --replSet shard03
+    volumes:
+      - ./scripts:/scripts
+      - /talkative-microservices/shard03a:/data/db
 
   ## Router
   router:
     image: mongo
-    command: mongos --port 27017 --bind_ip_all --configdb configserver/config01:27020,config02:27020,config03:27020
+    command: mongos --port 27017 --bind_ip_all --configdb configserver/config01:28017,config02:28018,config03:28019
     ports:
       - "27017:27017"
     volumes:
@@ -50,6 +56,7 @@ services:
       - config03
       - shard01a
       - shard02a
+      - shard03a
 
   mongo-express:
     image: mongo-express
